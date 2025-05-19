@@ -47,8 +47,14 @@ export default function Cadastro() {
         "https://api.rankme.live/api/users/login",
         data
       );
-      console.log(response.data);
-      navigate.push("/dashboard");
+
+      if (response.status === 200) {
+        const token = response.data.token;
+        localStorage.setItem("token", token);
+
+        console.log("Token salvo no localStorage:", token);
+        navigate.push("/dashboard");
+      }
     } catch (error) {
       console.error("Erro ao fazer login", error);
     } finally {
