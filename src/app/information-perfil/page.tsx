@@ -74,6 +74,7 @@ export default function InformationUserPerfil() {
     getSessionStatus();
   }, []);
 
+
   return (
     <div>
       <Header />
