@@ -17,8 +17,9 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import axios from "axios";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Spinner } from "../_components/spinner";
 
 const formSchema = z.object({
@@ -33,10 +34,13 @@ const formSchema = z.object({
 
 export default function Cadastro() {
   const navigate = useRouter();
-  const searchParams = useSearchParams();
-  const planId = searchParams.get("planId");
-
+  const [planId, setPlanId] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    setPlanId(params.get("planId"));
+  }, []);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
