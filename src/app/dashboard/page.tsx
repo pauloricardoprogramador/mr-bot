@@ -1,7 +1,9 @@
 "use client";
 
+import { Cabecalho } from "../_components/cabecalho";
 import { Header } from "../_components/header";
 import { AddSession } from "./add-session";
+import { ListSession } from "./list-session";
 import TableSession from "./table-session";
 
 export default function Dashboard() {
@@ -26,6 +28,14 @@ export default function Dashboard() {
         </div>
         <div>
           <TableSession />
+        </div>
+
+        <div className="mt-8">
+          <Cabecalho
+            title="Histórico de Agentes"
+            description="Acompanhe todos os agentes que você criou"
+          />
+          <ListSession />
         </div>
       </div>
     </div>
