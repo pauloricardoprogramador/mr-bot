@@ -10,10 +10,9 @@ import axios from "axios";
 import { SessionProps } from "../dashboard/table-session";
 import { toast } from "sonner";
 
-
 export default function Configuration() {
   const [session, setSession] = useState<SessionProps[]>([]);
-  const [selectedSession, setSelectedSession] = useState<number | null>(null);
+  const [selectedSession, setSelectedSession] = useState<string | null>(null);
   const [prompt, setPrompt] = useState("");
   const [message, setMessage] = useState("");
   const [api, setApi] = useState("");
@@ -66,13 +65,14 @@ export default function Configuration() {
     const token = localStorage.getItem("token");
 
     try {
-      await axios.put(
+      const response = await axios.put(
         `https://api.rankme.live/api/user-settings/${selectedSession}`,
         {
-          prompt,
-          delay: Number(message),
-          ignoredNumbers,
-          apiKey: api,
+          custom_prompt: prompt,
+          message_delay: Number(message),
+          ignored_numbers: ignoredNumbers,
+          api_key: api,
+          session_id: selectedSession,
         },
         {
           headers: {
@@ -80,13 +80,14 @@ export default function Configuration() {
           },
         }
       );
-
+      console.log(response.data);
       toast("Suas alterações foram aplicadas com sucesso.");
     } catch (error) {
       console.error("Erro ao salvar configurações:", error);
       toast("Ocorreu um erro ao salvar. Tente novamente.");
     }
   };
+  
 
   const handleResetConfig = () => {
     setPrompt("");
@@ -94,7 +95,8 @@ export default function Configuration() {
     setApi("");
     setIgnoredNumbers([]);
     setShowApi(false);
-    toast("Suas alterações foram aplicadas com sucesso.");
+    setSelectedSession(null);
+    toast("Configurações resetadas com sucesso.");
   };
 
   return (
@@ -109,12 +111,15 @@ export default function Configuration() {
           />
           <select
             className="w-full border border-slate-200 p-2 mt-2"
-            onChange={(e) => setSelectedSession(Number(e.target.value))}
+            onChange={(e) => setSelectedSession(e.target.value)}
+            value={selectedSession || ""}
           >
-            <option value="">Selecione uma sessão</option>
-            {session.map((session) => (
-              <option key={session.id} value={session.id}>
-                {session.name}
+            <option value="" disabled>
+              Selecione uma sessão
+            </option>
+            {session.map((s) => (
+              <option value={s.id} key={s.id}>
+                {s.name}
               </option>
             ))}
           </select>
@@ -123,7 +128,7 @@ export default function Configuration() {
         <div>
           <CabecalhoConfig
             title="Prompt Personalizado"
-            description="Escreva um texto  descritivo de como o seu agente deverá incorporar a persona. Este prompt será usado como base para as respostas do seu bot. "
+            description="Escreva um texto  descritivo de como o seu agente deverá incorporar a persona. Este prompt será usado como base para as respostas do seu bot. "
           />
           <textarea
             className="h-40 w-full border border-slate-200 p-2 resize-none mt-2"
@@ -136,7 +141,7 @@ export default function Configuration() {
         <div>
           <CabecalhoConfig
             title="Atraso de Mensagem"
-            description="Ao escolher um tempo, você informa ao seu agente  o t empo de espera entre o recebimento e o envio de mensagens."
+            description="Ao escolher um tempo, você informa ao seu agente  o t empo de espera entre o recebimento e o envio de mensagens."
           />
           <Input
             className="h-12 w-full"
