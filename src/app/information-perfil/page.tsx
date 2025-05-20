@@ -3,24 +3,13 @@
 import { Button } from "@/components/ui/button";
 import { Cabecalho } from "../_components/cabecalho";
 import { StatusPerfil } from "./status-perfil";
-import { Progress } from "@/components/ui/progress";
 import { Header } from "../_components/header";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { UserProps } from "../_components/sidebar";
-import { PlansCard } from "../_components/plans";
-
-interface UserPerfilProps {
-  id: string;
-  name: string;
-  qr_code_url: string;
-  authenticated: boolean;
-  created_at: string;
-}
 
 export default function InformationUserPerfil() {
   const [userPerfil, setUserPerfil] = useState<UserProps | null>(null);
-  const [session, setSession] = useState<UserProps[]>([]);
 
   const getDataUser = async () => {
     const token = localStorage.getItem("token");
@@ -62,7 +51,6 @@ export default function InformationUserPerfil() {
           },
         }
       );
-      setSession(response.data);
       console.log(response.data);
       return;
     } catch (error) {
@@ -95,28 +83,9 @@ export default function InformationUserPerfil() {
                     : "Nenhum plano adicionado"
                 }
               />
-              <StatusPerfil
-                title="Status"
-                description={userPerfil?.active ? "Ativo" : "Inativo"}
-              />
             </div>
 
             <div className="flex flex-col items-start space-y-2 mt-4 border-t-2 border-slate-200 pt-2">
-              <div className="flex flex-col items-start my-4 w-full">
-                <div className="flex items-center justify-between  w-full ">
-                  <span className="text-base text-slate-700 font-semibold">
-                    Sessões
-                  </span>
-                  <span className="text-base text-slate-400">
-                    {session.length} / {userPerfil?.max_sessions}
-                  </span>
-                </div>
-                <Progress
-                  value={session.length}
-                  className="my-4 h-4 rounded-md bg-slate-200"
-                />
-              </div>
-
               <Button
                 className="w-full h-12 rounded-lg bg-slate-700 hover:bg-slate-800 transition-all duration-500 cursor-pointer"
                 type="button"
