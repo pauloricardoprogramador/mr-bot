@@ -36,7 +36,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 
-interface SessionProps {
+export interface SessionProps {
   id: string;
   name: string;
   authenticated: boolean;

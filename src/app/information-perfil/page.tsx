@@ -8,6 +8,7 @@ import { Header } from "../_components/header";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { UserProps } from "../_components/sidebar";
+import { PlansCard } from "../_components/plans";
 
 interface UserPerfilProps {
   id: string;
@@ -73,7 +74,6 @@ export default function InformationUserPerfil() {
     getDataUser();
     getSessionStatus();
   }, []);
-
 
   return (
     <div>

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { DM_Sans } from "next/font/google";
 import "./globals.css";
+import { Toaster } from "@/components/ui/sonner";
 
 const Sans = DM_Sans({
   variable: "--font-dm-sans",
@@ -23,6 +24,7 @@ export default function RootLayout({
       <body className={`${Sans.variable} antialiased`}>
         <div className="min-h-screen bg-slate-50  font-dm_sans ">
           {children}
+          <Toaster />
         </div>
       </body>
     </html>
