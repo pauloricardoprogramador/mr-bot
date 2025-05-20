@@ -97,9 +97,9 @@ export function AddSession() {
             <div className="flex flex-col items-start space-y-4 border-t border-slate-200 pt-4 mt-4">
               <Label>Nome da sessão</Label>
               <Input
-                placeholder="Digite um nome para sua sessão"
+                placeholder="Escolha um numero para sua sessão"
                 className="h-12 w-full"
-                type="text"
+                type="number"
                 value={valueInput}
                 onChange={(e) => setValueInput(e.target.value)}
               />
